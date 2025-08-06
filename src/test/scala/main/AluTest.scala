@@ -5,15 +5,15 @@ import org.scalatest.flatspec.AnyFlatSpec
 class AluTest extends AnyFlatSpec with ChiselScalatestTester {
   "Alu" should "work" in {
     test(new Alu) { dut =>
-      for (a <- 0 to 2) {
-        for (b <- 0 to 3) {
-          // val result = a + b
-          // dut.io.a.poke(a.U)
-          // dut.io.b.poke(b.U)
-          // dut.clock.step(1)
-          // dut.io.c.expect(result.U)
-        }
-      }
+      dut.io.enable.poke(true.B);
+      dut.io.operation.poke(AluOperation.Add);
+      dut.io.compare.poke(false.B);
+      dut.io.rs.poke(2.U);
+      dut.io.rt.poke(3.U);
+
+      dut.clock.step(1);
+
+      dut.io.output.expect(5.U);
     }
   }
 }

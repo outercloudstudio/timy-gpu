@@ -8,42 +8,42 @@ object AluOperation extends ChiselEnum {
 
 class Alu extends Module {
   val io = IO(new Bundle {
-    val enable = Input(Bool())
+    val enable = Input(Bool());
 
-    val operation = Input(AluOperation())
-    val compare = Input(Bool())
+    val operation = Input(AluOperation());
+    val compare = Input(Bool());
 
-    val rs = Input(UInt(8.W))
-    val rt = Input(UInt(8.W))
+    val rs = Input(UInt(8.W));
+    val rt = Input(UInt(8.W));
 
-    val output = Output(UInt(8.W))
+    val output = Output(UInt(8.W));
   })
 
-  io.output := 0.U
+  io.output := 0.U;
 
   when(io.enable) {
     when(io.compare) {
-      val gt = io.rs > io.rt
-      val eq = io.rs === io.rt
-      val lt = io.rs < io.rt
+      val gt = io.rs > io.rt;
+      val eq = io.rs === io.rt;
+      val lt = io.rs < io.rt;
 
       io.output := Cat(0.U(5.W), gt, eq, lt);
     }.otherwise {
       switch(io.operation) {
         is(AluOperation.Add) {
-          io.output := io.rs + io.rt
+          io.output := io.rs + io.rt;
         }
 
         is(AluOperation.Sub) {
-          io.output := io.rs - io.rt
+          io.output := io.rs - io.rt;
         }
 
         is(AluOperation.Mul) {
-          io.output := io.rs * io.rt
+          io.output := io.rs * io.rt;
         }
 
         is(AluOperation.Div) {
-          io.output := io.rs / io.rt
+          io.output := io.rs / io.rt;
         }
       }
     }
