@@ -1,0 +1,6 @@
+.metals/
+.vscode/
+target/
+generated/
+project/
+test_run_dir/
