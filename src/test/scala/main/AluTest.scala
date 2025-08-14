@@ -3,7 +3,7 @@ import chiseltest._
 import org.scalatest.flatspec.AnyFlatSpec
 
 class AluTest extends AnyFlatSpec with ChiselScalatestTester {
-  "Alu" should "work" in {
+  "Alu Add" should "work" in {
     test(new Alu) { dut =>
       dut.io.enable.poke(true.B);
       dut.io.operation.poke(AluOperation.Add);
