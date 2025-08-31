@@ -8,7 +8,7 @@ object AluOperation extends ChiselEnum {
 
 class Alu extends Module {
   val io = IO(new Bundle {
-    val enable = Input(Bool());
+    val execute = Input(Bool());
 
     val operation = Input(AluOperation());
     val compare = Input(Bool());
@@ -21,7 +21,7 @@ class Alu extends Module {
 
   io.output := 0.U;
 
-  when(io.enable) {
+  when(io.execute) {
     when(io.compare) {
       val gt = io.rs > io.rt;
       val eq = io.rs === io.rt;
