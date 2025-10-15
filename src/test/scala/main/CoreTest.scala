@@ -10,9 +10,6 @@ class CoreTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.debug_memory_write_data.poke(1.U(8.W));
 
       dut.clock.step(1);
-
-      dut.io.debug_dispatcher_thread_requesting_opcode.poke(true.B);
-      dut.io.debug_dispatcher_thread_program_pointer.poke(0.U(8.W));
     
       dut.clock.step(1);
 

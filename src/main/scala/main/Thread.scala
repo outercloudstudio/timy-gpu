@@ -11,6 +11,7 @@ class Thread extends Module {
     val immediate_a = Input(UInt(8.W));
     val immediate_b = Input(UInt(8.W));
   
+    val program_pointer = Output(UInt(8.W));
     val end_of_program = Output(Bool()); 
     val idle = Output(Bool());
     val debug_output = Output(UInt(8.W));
@@ -38,6 +39,8 @@ class Thread extends Module {
   program_counter.io.branch := false.B;
   program_counter.io.jump_location := 0.U(8.W);
   program_counter.io.target_nzp := 0.U(3.W);
+
+  io.program_pointer := program_counter.io.program_counter;
   
   io.debug_output := 0.U(8.W);
 
