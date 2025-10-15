@@ -44,11 +44,8 @@ class Core extends Module {
 
   val thread = Module(new Thread());
   thread.io.dispatcher_opcode_loaded := dispatcher.io.opcode_loaded;
-  thread.io.dispatcher_opcode := dispatcher.io.opcode;
   thread.io.dispatcher_program_pointer := dispatcher.io.program_pointer;
-
-  thread.io.operation_ready := false.B;
-  thread.io.operation := Operation.NoOp;
+  thread.io.operation := dispatcher.io.opcode;
   thread.io.immediate_a := 0.U(8.W);
   thread.io.immediate_b := 0.U(8.W);
 }

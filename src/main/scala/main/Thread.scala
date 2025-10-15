@@ -5,10 +5,8 @@ import _root_.circt.stage.ChiselStage
 class Thread extends Module {
   val io = IO(new Bundle {
     val dispatcher_opcode_loaded = Input(Bool());
-    val dispatcher_opcode = Input(Operation());
     val dispatcher_program_pointer = Input(UInt(8.W));
 
-    val operation_ready = Input(Bool());
     val operation = Input(Operation());
     val immediate_a = Input(UInt(8.W));
     val immediate_b = Input(UInt(8.W));
@@ -46,7 +44,7 @@ class Thread extends Module {
   io.end_of_program := end_of_program;
   io.idle := idle;
 
-  when(io.operation_ready) {
+  when(io.dispatcher_opcode_loaded && io.dispatcher_program_pointer === program_counter.io.program_counter) {
     operation := io.operation;
     immediate_a := io.immediate_a;
     immediate_b := io.immediate_b;
