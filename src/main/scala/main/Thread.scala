@@ -4,6 +4,9 @@ import _root_.circt.stage.ChiselStage
 
 class Thread extends Module {
   val io = IO(new Bundle {
+    val dispatcher_opcode = Input(Operation());
+    val dispatcher_program_pointer = Input(UInt(8.W));
+
     val operation_ready = Input(Bool());
     val operation = Input(Operation());
     val immediate_a = Input(UInt(8.W));
@@ -28,7 +31,14 @@ class Thread extends Module {
   alu.io.rs := 0.U(8.W);
   alu.io.rt := 0.U(8.W);
   // val lsu = Module(new Lsu())
-  // val program_counter = Module(new ProgramCounter())
+
+  val program_counter = Module(new ProgramCounter())
+  program_counter.io.store_nzp := false.B;
+  program_counter.io.nzp := 0.U(3.W);
+  program_counter.io.update := false.B;
+  program_counter.io.branch := false.B;
+  program_counter.io.jump_location := 0.U(8.W);
+  program_counter.io.target_nzp := 0.U(3.W);
   
   io.debug_output := 0.U(8.W);
 
