@@ -43,6 +43,7 @@ class Core extends Module {
   io.debug_dispatcher_program_pointer := dispatcher.io.program_pointer;
 
   val thread = Module(new Thread());
+  thread.io.dispatcher_opcode_loaded := dispatcher.io.opcode_loaded;
   thread.io.dispatcher_opcode := dispatcher.io.opcode;
   thread.io.dispatcher_program_pointer := dispatcher.io.program_pointer;
 

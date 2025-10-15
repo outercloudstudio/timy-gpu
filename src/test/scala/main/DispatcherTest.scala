@@ -8,6 +8,8 @@ class DispatcherTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.thread_requesting_opcode.poke(true.B);
       dut.io.thread_program_pointer.poke(1.U(8.W));
 
+      dut.io.opcode_loaded.expect(false.B);
+
       dut.clock.step(1);
 
       dut.io.read_requested.expect(true.B);
@@ -20,6 +22,7 @@ class DispatcherTest extends AnyFlatSpec with ChiselScalatestTester {
 
       dut.clock.step(1);
 
+      dut.io.opcode_loaded.expect(true.B);
       dut.io.opcode.expect(Operation.Add);
       dut.io.program_pointer.expect(1.U(8.W));
     }

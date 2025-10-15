@@ -4,6 +4,7 @@ import _root_.circt.stage.ChiselStage
 
 class Thread extends Module {
   val io = IO(new Bundle {
+    val dispatcher_opcode_loaded = Input(Bool());
     val dispatcher_opcode = Input(Operation());
     val dispatcher_program_pointer = Input(UInt(8.W));
 

@@ -12,6 +12,7 @@ class Dispatcher extends Module {
     val read_ready = Input(Bool());
     val read_opcode = Input(Operation());
     
+    val opcode_loaded = Output(Bool());
     val opcode = Output(Operation());
     val program_pointer = Output(UInt(8.W));
   });
@@ -21,6 +22,8 @@ class Dispatcher extends Module {
   val read_program_pointer = RegInit(0.U(8.W));
   io.read_program_pointer := read_program_pointer;
 
+  val opcode_loaded = RegInit(false.B);
+  io.opcode_loaded := opcode_loaded;
   val opcode = RegInit(Operation.NoOp);
   io.opcode := opcode;
   val program_pointer = RegInit(0.U(8.W));
@@ -33,6 +36,7 @@ class Dispatcher extends Module {
   
   when(io.read_ready) {
     opcode := io.read_opcode;
+    opcode_loaded := true.B;
     program_pointer := io.read_program_pointer;
     read_requested := false.B;
   }
