@@ -15,7 +15,5 @@ object Main extends App {
         dut.io.data.poke(2.U);
 
         dut.clock.step(1);
-
-        println(dut.io.state.peek().litValue);
     }
 }

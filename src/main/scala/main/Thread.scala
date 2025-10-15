@@ -16,20 +16,16 @@ class Thread extends Module {
     val idle = Output(Bool());
     val debug_output = Output(UInt(8.W));
   })
-
-  val operation = RegInit(Operation.NoOp);
-  val immediate_a = RegInit(0.U(8.W));
-  val immediate_b = RegInit(0.U(8.W));
   
   val end_of_program = RegInit(false.B);
   val idle = RegInit(true.B);
 
   val alu = Module(new Alu())
   alu.io.execute := false.B;
-  alu.io.operation := operation;
+  alu.io.operation := Operation.NoOp;
   alu.io.compare := false.B;
-  alu.io.rs := immediate_a;
-  alu.io.rt := immediate_b;
+  alu.io.rs := 0.U(8.W);
+  alu.io.rt := 0.U(8.W);
 
   io.debug_output := alu.io.output;
 
@@ -49,15 +45,23 @@ class Thread extends Module {
   io.idle := idle;
 
   when(io.dispatcher_opcode_loaded && io.dispatcher_program_pointer === program_counter.io.program_counter) {
-    operation := io.operation;
-    immediate_a := io.immediate_a;
-    immediate_b := io.immediate_b;
-
-    when(operation === Operation.Add || operation === Operation.Sub || operation === Operation.Mul || operation === Operation.Div) {
+    when(io.operation === Operation.Add || io.operation === Operation.Sub || io.operation === Operation.Mul || io.operation === Operation.Div) {
       alu.io.execute := true.B;
+      alu.io.operation := io.operation;
+      alu.io.rs := io.immediate_a;
+      alu.io.rt := io.immediate_b;
 
-      // program_counter.io.update := true.B;
-      // program_counter.io.branch := false.B;
+      program_counter.io.update := true.B;
+      program_counter.io.branch := false.B;
     }
+  }
+
+  when(true.B) {
+    printf(p"\t[Thread]=====");
+    printf(p"\n\t\tio.operation=${io.operation}");
+    printf(p"\n\t\tprogram_pointer=${program_counter.io.program_counter}");
+    printf(p"\n\t\tidle=${idle}");
+    printf(p"\n\t\tio.debug_output=${io.debug_output}");
+    printf(p"\n\n");
   }
 }

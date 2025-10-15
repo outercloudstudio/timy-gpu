@@ -28,14 +28,19 @@ class Core extends Module {
   dispatcher.io.thread_requesting_opcode := thread.io.idle;
   dispatcher.io.thread_program_pointer := thread.io.program_pointer;
   
-  val read_ready_delayed = RegNext(dispatcher.io.read_requested, false.B);
-  dispatcher.io.read_ready := read_ready_delayed;   
+  // val read_ready_delayed = RegNext(dispatcher.io.read_requested, false.B);
+  // dispatcher.io.read_ready := read_ready_delayed;   
+  dispatcher.io.read_ready := dispatcher.io.read_requested;   
   dispatcher.io.read_opcode := Operation.safe(memory.io.readPorts(0).data(3, 0))._1;
 
   when(true.B) {
     printf(p"\t[Core]=====");
-    printf(p"\n\tdebug_dispatcher_opcode=${io.debug_dispatcher_opcode}");
-    printf(p"\n\tdebug_dispatcher_program_pointer=${io.debug_dispatcher_program_pointer}");
+    printf(p"\n\t\tdispatcher.io.read_requested=${dispatcher.io.read_requested}");
+    printf(p"\n\t\tdispatcher.io.read_program_pointer=${dispatcher.io.read_program_pointer}");
+    printf(p"\n\t\tdispatcher.io.read_opcode=${dispatcher.io.read_opcode}");
+    // printf(p"\n\t\tread_ready_delayed=${read_ready_delayed}");
+    printf(p"\n\t\tdebug_dispatcher_opcode=${io.debug_dispatcher_opcode}");
+    printf(p"\n\t\tdebug_dispatcher_program_pointer=${io.debug_dispatcher_program_pointer}");
     printf(p"\n\n");
   }
 

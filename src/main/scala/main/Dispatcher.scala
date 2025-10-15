@@ -2,6 +2,7 @@ import chisel3._
 import chisel3.util._
 import _root_.circt.stage.ChiselStage
 
+// TODO: Make dispatcher instantly drive value
 class Dispatcher extends Module {
   val io = IO(new Bundle {
     val thread_requesting_opcode = Input(Bool());
@@ -30,11 +31,15 @@ class Dispatcher extends Module {
   io.program_pointer := program_pointer;
 
   when(io.thread_requesting_opcode) {
+    // printf(p"\t[Dispatcher]=====");
+    // printf(p"\n\t\tMarked read requested!\n\n");
     read_program_pointer := io.thread_program_pointer;
     read_requested := true.B;
   }
   
   when(io.read_ready) {
+    // printf(p"\t[Dispatcher]=====");
+    // printf(p"\n\t\tMarked read not requested!\n\n");
     opcode := io.read_opcode;
     opcode_loaded := true.B;
     program_pointer := io.read_program_pointer;
