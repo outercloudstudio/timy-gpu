@@ -10,6 +10,8 @@ class Core extends Module {
 
     val debug_dispatcher_opcode = Output(Operation());
     val debug_dispatcher_program_pointer = Output(UInt(8.W));
+
+    val debug_thread_debug_output = Output(UInt(8.W));
   });
 
   val memory = Module(new Memory());
@@ -30,12 +32,12 @@ class Core extends Module {
   dispatcher.io.read_ready := read_ready_delayed;   
   dispatcher.io.read_opcode := Operation.safe(memory.io.readPorts(0).data(3, 0))._1;
 
-  // when(true.B) {
-  //   printf(p"\t[Core]=====");
-  //   printf(p"\n\tdebug.thread_requesting_opcode=${io.debug_dispatcher_thread_requesting_opcode}");
-  //   printf(p"\n\tdispatcher.read_requested=${dispatcher.io.read_requested}");
-  //   printf(p"\n\tread_ready_delayed=${read_ready_delayed}\n\n");
-  // }
+  when(true.B) {
+    printf(p"\t[Core]=====");
+    printf(p"\n\tdebug_dispatcher_opcode=${io.debug_dispatcher_opcode}");
+    printf(p"\n\tdebug_dispatcher_program_pointer=${io.debug_dispatcher_program_pointer}");
+    printf(p"\n\n");
+  }
 
   io.debug_dispatcher_opcode := dispatcher.io.opcode;
   io.debug_dispatcher_program_pointer := dispatcher.io.program_pointer;
@@ -45,4 +47,6 @@ class Core extends Module {
   thread.io.operation := dispatcher.io.opcode;
   thread.io.immediate_a := 2.U(8.W);
   thread.io.immediate_b := 3.U(8.W);
+
+  io.debug_thread_debug_output := thread.io.debug_output;
 }

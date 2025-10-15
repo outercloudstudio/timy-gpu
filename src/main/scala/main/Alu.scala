@@ -2,15 +2,11 @@ import chisel3._
 import chisel3.util._
 import _root_.circt.stage.ChiselStage
 
-object AluOperation extends ChiselEnum {
-  val Add, Sub, Mul, Div = Value
-}
-
 class Alu extends Module {
   val io = IO(new Bundle {
     val execute = Input(Bool());
 
-    val operation = Input(AluOperation());
+    val operation = Input(Operation());
     val compare = Input(Bool());
 
     val rs = Input(UInt(8.W));
@@ -30,19 +26,19 @@ class Alu extends Module {
       io.output := Cat(0.U(5.W), gt, eq, lt);
     }.otherwise {
       switch(io.operation) {
-        is(AluOperation.Add) {
+        is(Operation.Add) {
           io.output := io.rs + io.rt;
         }
 
-        is(AluOperation.Sub) {
+        is(Operation.Sub) {
           io.output := io.rs - io.rt;
         }
 
-        is(AluOperation.Mul) {
+        is(Operation.Mul) {
           io.output := io.rs * io.rt;
         }
 
-        is(AluOperation.Div) {
+        is(Operation.Div) {
           io.output := io.rs / io.rt;
         }
       }

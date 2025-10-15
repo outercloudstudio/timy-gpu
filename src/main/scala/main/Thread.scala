@@ -26,10 +26,13 @@ class Thread extends Module {
 
   val alu = Module(new Alu())
   alu.io.execute := false.B;
-  alu.io.operation := AluOperation.Add;
+  alu.io.operation := operation;
   alu.io.compare := false.B;
-  alu.io.rs := 0.U(8.W);
-  alu.io.rt := 0.U(8.W);
+  alu.io.rs := immediate_a;
+  alu.io.rt := immediate_b;
+
+  io.debug_output := alu.io.output;
+
   // val lsu = Module(new Lsu())
 
   val program_counter = Module(new ProgramCounter())
@@ -41,8 +44,6 @@ class Thread extends Module {
   program_counter.io.target_nzp := 0.U(3.W);
 
   io.program_pointer := program_counter.io.program_counter;
-  
-  io.debug_output := 0.U(8.W);
 
   io.end_of_program := end_of_program;
   io.idle := idle;
@@ -54,26 +55,9 @@ class Thread extends Module {
 
     when(operation === Operation.Add || operation === Operation.Sub || operation === Operation.Mul || operation === Operation.Div) {
       alu.io.execute := true.B;
-      
-      switch(operation) {
-        is (Operation.Add) {
-          alu.io.operation := AluOperation.Add;
-        }
-        is (Operation.Sub) {
-          alu.io.operation := AluOperation.Sub;
-        }
-        is (Operation.Mul) {
-          alu.io.operation := AluOperation.Mul;
-        }
-        is (Operation.Div) {
-          alu.io.operation := AluOperation.Div;
-        }
-      }
 
-      alu.io.rs := io.immediate_a;
-      alu.io.rt := io.immediate_b;
-      
-      io.debug_output := alu.io.output;
+      // program_counter.io.update := true.B;
+      // program_counter.io.branch := false.B;
     }
   }
 }
