@@ -38,8 +38,8 @@ class Dispatcher extends Module {
   }
   
   when(io.read_ready) {
-    // printf(p"\t[Dispatcher]=====");
-    // printf(p"\n\t\tMarked read not requested!\n\n");
+    printf(p"\t[Dispatcher]=====");
+    printf(p"\n\t\tRead Complete ${io.read_opcode}\n\n");
     opcode := io.read_opcode;
     opcode_loaded := true.B;
     program_pointer := io.read_program_pointer;

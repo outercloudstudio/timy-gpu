@@ -53,6 +53,8 @@ class Thread extends Module {
 
       program_counter.io.update := true.B;
       program_counter.io.branch := false.B;
+
+      io.idle := false.B;
     }
   }
 
@@ -61,6 +63,7 @@ class Thread extends Module {
     printf(p"\n\t\tio.operation=${io.operation}");
     printf(p"\n\t\tprogram_pointer=${program_counter.io.program_counter}");
     printf(p"\n\t\tidle=${idle}");
+    printf(p"\n\t\tio.idle=${io.idle}");
     printf(p"\n\t\tio.debug_output=${io.debug_output}");
     printf(p"\n\n");
   }

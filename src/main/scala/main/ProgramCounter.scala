@@ -26,10 +26,8 @@ class ProgramCounter extends Module {
 
   when(io.update) {
     when(io.branch && (nzp & io.target_nzp) =/= 0.U) {
-      io.program_counter := io.jump_location;
       program_counter := io.jump_location;
     }.otherwise {
-      io.program_counter := program_counter + 1.U;
       program_counter := program_counter + 1.U;
     }
   }
