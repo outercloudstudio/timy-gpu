@@ -20,8 +20,9 @@ class Thread extends Module {
   val end_of_program = RegInit(false.B);
   val idle = RegInit(true.B);
 
-  val register_a = RegInit(0.U(16.W));
-  val register_b = RegInit(0.U(16.W));
+  val register_a = RegInit(2.U(16.W));
+  val register_b = RegInit(3.U(16.W));
+  val register_c = RegInit(0.U(16.W));
 
   val alu = Module(new Alu())
   alu.io.execute := false.B;
@@ -51,8 +52,9 @@ class Thread extends Module {
     when(io.operation === Operation.Add || io.operation === Operation.Sub || io.operation === Operation.Mul || io.operation === Operation.Div) {
       alu.io.execute := true.B;
       alu.io.operation := io.operation;
-      alu.io.rs := io.immediate_a;
-      alu.io.rt := io.immediate_b;
+      alu.io.rs := register_a;
+      alu.io.rt := register_b;
+      register_a := alu.io.output
 
       program_counter.io.update := true.B;
       program_counter.io.branch := false.B;
@@ -68,6 +70,9 @@ class Thread extends Module {
     printf(p"\n\t\tidle=${idle}");
     printf(p"\n\t\tio.idle=${io.idle}");
     printf(p"\n\t\tio.debug_output=${io.debug_output}");
+    printf(p"\n\t\ta=${register_a}");
+    printf(p"\n\t\tb=${register_b}");
+    printf(p"\n\t\tc=${register_c}");
     printf(p"\n\n");
   }
 }
