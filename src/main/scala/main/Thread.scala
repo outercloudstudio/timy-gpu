@@ -8,6 +8,8 @@ class Thread extends Module {
     val dispatcher_program_pointer = Input(UInt(8.W));
 
     val operation = Input(Operation());
+    val src_register = Input(Register());
+    val dst_register = Input(Register());
     val immediate_a = Input(UInt(8.W));
     val immediate_b = Input(UInt(8.W));
   
@@ -52,9 +54,33 @@ class Thread extends Module {
     when(io.operation === Operation.Add || io.operation === Operation.Sub || io.operation === Operation.Mul || io.operation === Operation.Div) {
       alu.io.execute := true.B;
       alu.io.operation := io.operation;
-      alu.io.rs := register_a;
-      alu.io.rt := register_b;
-      register_a := alu.io.output
+
+      when(io.src_register === Register.A) {
+        alu.io.rs := register_a;
+      }
+
+      when(io.src_register === Register.B) {
+        alu.io.rs := register_b;
+      }
+
+      when(io.src_register === Register.C) {
+        alu.io.rs := register_c;
+      }
+
+      when(io.dst_register === Register.A) {
+        alu.io.rt := register_a;
+        register_a := alu.io.output
+      }
+
+      when(io.dst_register === Register.B) {
+        alu.io.rt := register_b;
+        register_b := alu.io.output
+      }
+
+      when(io.dst_register === Register.C) {
+        alu.io.rt := register_c;
+        register_c := alu.io.output
+      }
 
       program_counter.io.update := true.B;
       program_counter.io.branch := false.B;

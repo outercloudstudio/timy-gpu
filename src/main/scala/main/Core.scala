@@ -34,7 +34,7 @@ class Core extends Module {
   
   val read_ready_delayed = RegNext(dispatcher.io.read_requested, false.B);
   dispatcher.io.read_ready := read_ready_delayed;
-  dispatcher.io.read_opcode := Operation.safe(memory.io.readPorts(0).data(6, 3))._1;
+  dispatcher.io.read_opcode := memory.io.readPorts(0).data(7, 0);
   dispatcher.io.read_immediate_l := memory.io.readPorts(1).data(7, 0);
   dispatcher.io.read_immediate_u := memory.io.readPorts(2).data(7, 0);
 
@@ -57,6 +57,8 @@ class Core extends Module {
   thread.io.dispatcher_opcode_loaded := dispatcher.io.opcode_loaded;
   thread.io.dispatcher_program_pointer := dispatcher.io.program_pointer;
   thread.io.operation := dispatcher.io.opcode;
+  thread.io.src_register := dispatcher.io.src_register;
+  thread.io.dst_register := dispatcher.io.dst_register;
   thread.io.immediate_a := 2.U(8.W);
   thread.io.immediate_b := 3.U(8.W);
 

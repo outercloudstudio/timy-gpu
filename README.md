@@ -29,6 +29,7 @@ A single thread contains a program counter, ALU, LSU, and registers. Thread take
 2. a, b, and c register
 ### Instruction Set
 The instruction set is 24 bits wide. 8 for opcode and 16 additional bits for immediate. The first 5 opcode bits specify instruction. The next 3 specify target or source / destination registers if an instruction uses it.
+#### Opcodes
 - move
 	`00001` + target --> moves immediate into register
 	`00010` + src/dst --> moves value in register to register
@@ -68,7 +69,14 @@ The instruction set is 24 bits wide. 8 for opcode and 16 additional bits for imm
 	`10101` --> signals that the thread has finished execution
 - store
 	`10110` + src/dst --> takes address from src register and stores the value in dst register into memory
-	
+#### Register Codes
+`000` --> A --> B
+`001` --> A --> C
+`010` --> B --> A
+`011` --> B --> C
+`100` --> C --> A
+`101` --> C --> B
+
 Potentially we may need more instructions but I can't think of any more that we need right now?
 # How To Run
 `sbt run test`
