@@ -20,6 +20,9 @@ class Thread extends Module {
   val end_of_program = RegInit(false.B);
   val idle = RegInit(true.B);
 
+  val register_a = RegInit(0.U(16.W));
+  val register_b = RegInit(0.U(16.W));
+
   val alu = Module(new Alu())
   alu.io.execute := false.B;
   alu.io.operation := Operation.NoOp;

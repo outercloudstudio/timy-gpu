@@ -18,8 +18,12 @@ class Core extends Module {
   val dispatcher = Module(new Dispatcher());
   val thread = Module(new Thread());
 
-  memory.io.readPorts(0).enable := dispatcher.io.read_requested;
+  memory.io.readPorts(0).enable := 3.U * dispatcher.io.read_requested;
   memory.io.readPorts(0).address := dispatcher.io.read_program_pointer;
+  memory.io.readPorts(1).enable := dispatcher.io.read_requested;
+  memory.io.readPorts(1).address := 3.U * dispatcher.io.read_program_pointer + 1.U;
+  memory.io.readPorts(2).enable := dispatcher.io.read_requested;
+  memory.io.readPorts(2).address := 3.U * dispatcher.io.read_program_pointer + 2.U;
 
   memory.io.writePorts(0).enable := io.debug_memory_write;
   memory.io.writePorts(0).address := io.debug_memory_write_address;
@@ -30,7 +34,9 @@ class Core extends Module {
   
   val read_ready_delayed = RegNext(dispatcher.io.read_requested, false.B);
   dispatcher.io.read_ready := read_ready_delayed;
-  dispatcher.io.read_opcode := Operation.safe(memory.io.readPorts(0).data(3, 0))._1;
+  dispatcher.io.read_opcode := Operation.safe(memory.io.readPorts(0).data(6, 3))._1;
+  dispatcher.io.read_immediate_l := memory.io.readPorts(1).data(7, 0);
+  dispatcher.io.read_immediate_u := memory.io.readPorts(2).data(7, 0);
 
   when(true.B) {
     printf(p"\t[Core]=====");

@@ -12,6 +12,8 @@ class Dispatcher extends Module {
     val read_program_pointer = Output(UInt(8.W));
     val read_ready = Input(Bool());
     val read_opcode = Input(Operation());
+    val read_immediate_l = Input(UInt(8.W));
+    val read_immediate_u = Input(UInt(8.W));
     
     val opcode_loaded = Output(Bool());
     val opcode = Output(Operation());
@@ -31,15 +33,17 @@ class Dispatcher extends Module {
   io.program_pointer := program_pointer;
 
   when(io.thread_requesting_opcode) {
-    // printf(p"\t[Dispatcher]=====");
-    // printf(p"\n\t\tMarked read requested!\n\n");
+    printf(p"\t[Dispatcher]=====");
+    printf(p"\n\t\tMarked read requested!\n\n");
     read_program_pointer := io.thread_program_pointer;
     read_requested := true.B;
   }
   
   when(io.read_ready) {
     printf(p"\t[Dispatcher]=====");
-    printf(p"\n\t\tRead Complete ${io.read_opcode}\n\n");
+    printf(p"\n\t\tRead Complete ${io.read_opcode}");
+    printf(p"\n\t\tImmediate Lower ${io.read_immediate_l}");
+    printf(p"\n\t\tImmediate Upper ${io.read_immediate_u}\n\n");
     opcode := io.read_opcode;
     opcode_loaded := true.B;
     program_pointer := io.read_program_pointer;
