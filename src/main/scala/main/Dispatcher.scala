@@ -50,7 +50,7 @@ class Dispatcher extends Module {
     printf(p"\t[Dispatcher]=====");
     printf(p"\n\t\tRead Complete ${io.read_opcode}");
     printf(p"\n\t\tImmediate Lower ${io.read_immediate_l}");
-    printf(p"\n\t\tImmediate Upper ${io.read_immediate_u}");
+    printf(p"\n\t\tImmediate Upper ${io.read_immediate_u}\n\n");
 
     opcode := Operation.safe(io.read_opcode(6, 3))._1;
     

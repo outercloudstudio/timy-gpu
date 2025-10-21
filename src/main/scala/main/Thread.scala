@@ -24,7 +24,7 @@ class Thread extends Module {
 
   val register_a = RegInit(2.U(16.W));
   val register_b = RegInit(3.U(16.W));
-  val register_c = RegInit(0.U(16.W));
+  val register_c = RegInit(7.U(16.W));
 
   val alu = Module(new Alu())
   alu.io.execute := false.B;
@@ -99,6 +99,8 @@ class Thread extends Module {
     printf(p"\n\t\ta=${register_a}");
     printf(p"\n\t\tb=${register_b}");
     printf(p"\n\t\tc=${register_c}");
+    printf(p"\n\t\tSrc Register=${io.src_register}");
+    printf(p"\n\t\tDst Register=${io.dst_register}");
     printf(p"\n\n");
   }
 }

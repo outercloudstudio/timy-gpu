@@ -18,8 +18,8 @@ class Core extends Module {
   val dispatcher = Module(new Dispatcher());
   val thread = Module(new Thread());
 
-  memory.io.readPorts(0).enable := 3.U * dispatcher.io.read_requested;
-  memory.io.readPorts(0).address := dispatcher.io.read_program_pointer;
+  memory.io.readPorts(0).enable := dispatcher.io.read_requested;
+  memory.io.readPorts(0).address := 3.U * dispatcher.io.read_program_pointer;
   memory.io.readPorts(1).enable := dispatcher.io.read_requested;
   memory.io.readPorts(1).address := 3.U * dispatcher.io.read_program_pointer + 1.U;
   memory.io.readPorts(2).enable := dispatcher.io.read_requested;
