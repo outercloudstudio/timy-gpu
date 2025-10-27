@@ -10,8 +10,7 @@ class Thread extends Module {
     val operation = Input(Operation());
     val src_register = Input(Register());
     val dst_register = Input(Register());
-    val immediate_a = Input(UInt(8.W));
-    val immediate_b = Input(UInt(8.W));
+    val immediate = Input(UInt(16.W));
   
     val program_pointer = Output(UInt(8.W));
     val end_of_program = Output(Bool()); 
@@ -22,9 +21,9 @@ class Thread extends Module {
   val end_of_program = RegInit(false.B);
   val idle = RegInit(true.B);
 
-  val register_a = RegInit(2.U(16.W));
-  val register_b = RegInit(3.U(16.W));
-  val register_c = RegInit(7.U(16.W));
+  val register_a = RegInit(0.U(16.W));
+  val register_b = RegInit(0.U(16.W));
+  val register_c = RegInit(0.U(16.W));
 
   val alu = Module(new Alu())
   alu.io.execute := false.B;
@@ -89,7 +88,17 @@ class Thread extends Module {
     }
 
     when(io.operation === Operation.MoveImmediate) {
-      
+      when(io.dst_register === Register.A) {
+        register_a := io.immediate
+      }
+
+      when(io.dst_register === Register.B) {
+        register_b := io.immediate
+      }
+
+      when(io.dst_register === Register.C) {
+        register_c := io.immediate
+      }
     }
 
     when(io.operation === Operation.MoveRegister) { 

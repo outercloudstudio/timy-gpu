@@ -4,6 +4,8 @@ import _root_.circt.stage.ChiselStage
 
 class Core extends Module {
   val io = IO(new Bundle {
+    val execute = Input(Bool());
+
     val debug_memory_write = Input(Bool());
     val debug_memory_write_address = Input(UInt(8.W));
     val debug_memory_write_data = Input(UInt(8.W));
@@ -29,7 +31,7 @@ class Core extends Module {
   memory.io.writePorts(0).address := io.debug_memory_write_address;
   memory.io.writePorts(0).data := io.debug_memory_write_data;
 
-  dispatcher.io.thread_requesting_opcode := thread.io.idle;
+  dispatcher.io.thread_requesting_opcode := thread.io.idle && io.execute;
   dispatcher.io.thread_program_pointer := thread.io.program_pointer;
   
   val read_ready_delayed = RegNext(dispatcher.io.read_requested, false.B);
@@ -59,8 +61,7 @@ class Core extends Module {
   thread.io.operation := dispatcher.io.opcode;
   thread.io.src_register := dispatcher.io.src_register;
   thread.io.dst_register := dispatcher.io.dst_register;
-  thread.io.immediate_a := 2.U(8.W);
-  thread.io.immediate_b := 3.U(8.W);
+  thread.io.immediate := Cat(dispatcher.io.read_immediate_u, dispatcher.io.read_immediate_l);
 
   io.debug_thread_debug_output := thread.io.debug_output;
 }
