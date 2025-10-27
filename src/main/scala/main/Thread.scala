@@ -87,6 +87,41 @@ class Thread extends Module {
 
       io.idle := false.B;
     }
+
+    when(io.operation === Operation.MoveImmediate) {
+      
+    }
+
+    when(io.operation === Operation.MoveRegister) { 
+      when(io.src_register === Register.A && io.dst_register === Register.B) {
+        register_a := register_b
+      }
+
+      when(io.src_register === Register.A && io.dst_register === Register.C) {
+        register_a := register_c
+      }
+
+      when(io.src_register === Register.B && io.dst_register === Register.A) {
+        register_b := register_a
+      }
+
+      when(io.src_register === Register.B && io.dst_register === Register.C) {
+        register_b := register_c
+      }
+
+      when(io.src_register === Register.C && io.dst_register === Register.A) {
+        register_c := register_a
+      }
+      
+      when(io.src_register === Register.C && io.dst_register === Register.B) {
+        register_c := register_b
+      }
+
+      program_counter.io.update := true.B;
+      program_counter.io.branch := false.B;
+
+      io.idle := false.B;
+    }
   }
 
   when(true.B) {
