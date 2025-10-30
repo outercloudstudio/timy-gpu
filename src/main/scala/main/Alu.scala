@@ -30,16 +30,8 @@ class Alu extends Module {
           io.output := io.rs + io.rt;
         }
 
-        is(Operation.Sub) {
-          io.output := io.rs - io.rt;
-        }
-
         is(Operation.Mul) {
           io.output := io.rs * io.rt;
-        }
-
-        is(Operation.Div) {
-          io.output := io.rs / io.rt;
         }
       }
     }

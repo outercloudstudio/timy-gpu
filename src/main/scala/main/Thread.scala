@@ -50,7 +50,7 @@ class Thread extends Module {
   io.idle := idle;
 
   when(io.dispatcher_opcode_loaded && io.dispatcher_program_pointer === program_counter.io.program_counter) {
-    when(io.operation === Operation.Add || io.operation === Operation.Sub || io.operation === Operation.Mul || io.operation === Operation.Div) {
+    when(io.operation === Operation.Add || io.operation === Operation.Mul || io.operation === Operation.Compare) {
       alu.io.execute := true.B;
       alu.io.operation := io.operation;
 
