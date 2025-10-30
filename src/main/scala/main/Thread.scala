@@ -99,6 +99,11 @@ class Thread extends Module {
       when(io.dst_register === Register.C) {
         register_c := io.immediate
       }
+
+      program_counter.io.update := true.B;
+      program_counter.io.branch := false.B;
+
+      io.idle := false.B;
     }
 
     when(io.operation === Operation.MoveRegister) { 

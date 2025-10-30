@@ -43,7 +43,6 @@ class Core extends Module {
   when(true.B) {
     printf(p"\t[Core]=====");
     printf(p"\n\t\tdispatcher.io.read_requested=${dispatcher.io.read_requested}");
-    printf(p"\n\t\tread_ready_delayed=${read_ready_delayed}");
     printf(p"\n\t\tdispatcher.io.read_program_pointer=${dispatcher.io.read_program_pointer}");
     printf(p"\n\t\tdispatcher.io.read_opcode=${dispatcher.io.read_opcode}");
     // printf(p"\n\t\tread_ready_delayed=${read_ready_delayed}");
