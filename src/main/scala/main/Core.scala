@@ -50,6 +50,7 @@ class Core extends Module {
     printf(p"\n\t\tdispatcher_read_ready=${dispatcher.io.read_ready}");
     printf(p"\n\t\tdebug_dispatcher_opcode=${io.debug_dispatcher_opcode}");
     printf(p"\n\t\tdebug_dispatcher_program_pointer=${io.debug_dispatcher_program_pointer}");
+    printf(p"\n\t\texecute=${io.execute}");
     printf(p"\n\n");
   }
 

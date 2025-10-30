@@ -21,11 +21,9 @@ class Dispatcher extends Module {
     val dst_register = Output(Register());
     val program_pointer = Output(UInt(8.W));
   });
-
-  val read_requested = RegInit(0.U(8.W));
-  io.read_requested := read_requested;
-  val read_program_pointer = RegInit(0.U(8.W));
-  io.read_program_pointer := read_program_pointer;
+  
+  io.read_program_pointer := io.thread_program_pointer;
+  io.read_requested := false.B;
 
   val opcode_loaded = RegInit(false.B);
   io.opcode_loaded := opcode_loaded;
@@ -42,8 +40,7 @@ class Dispatcher extends Module {
     printf(p"\t[Dispatcher]=====");
     printf(p"\n\t\tMarked read requested!\n\n");
 
-    read_program_pointer := io.thread_program_pointer;
-    read_requested := true.B;
+    io.read_requested := true.B;
   }
   
   when(io.read_ready) {
@@ -90,6 +87,6 @@ class Dispatcher extends Module {
     
     program_pointer := io.read_program_pointer;
     
-    read_requested := false.B;
+    io.read_requested := false.B;
   }
 }
