@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Fri Oct 31 00:28:13 2025
+# Process ID         : 179524
+# Current directory  : /home/ag/Documents/Github/TinyGPUTest/TinyGPUTest.runs/synth_1
+# Command line       : vivado -log top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top.tcl
+# Log file           : /home/ag/Documents/Github/TinyGPUTest/TinyGPUTest.runs/synth_1/top.vds
+# Journal file       : /home/ag/Documents/Github/TinyGPUTest/TinyGPUTest.runs/synth_1/vivado.jou
+# Running On         : cachyos-x8664
+# Platform           : cachyos
+# Operating System   : CachyOS
+# Processor Detail   : AMD RYZEN AI MAX+ PRO 395 w/ Radeon 8060S
+# CPU Frequency      : 2948.099 MHz
+# CPU Physical cores : 16
+# CPU Logical cores  : 32
+# Host memory        : 134291 MB
+# Swap memory        : 134291 MB
+# Total Virtual      : 268582 MB
+# Available Virtual  : 249151 MB
+#-----------------------------------------------------------
+source top.tcl -notrace
