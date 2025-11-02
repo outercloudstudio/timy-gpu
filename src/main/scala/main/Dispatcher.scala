@@ -21,9 +21,6 @@ class Dispatcher extends Module {
     val program_pointer = Output(UInt(8.W));
   });
 
-  io.read_program_pointer := io.thread_program_pointer;
-  io.read_requested := false.B;
-
   val opcode_loaded = RegInit(false.B);
   io.opcode_loaded := opcode_loaded;
   val opcode = RegInit(Operation.NoOp);
@@ -35,19 +32,19 @@ class Dispatcher extends Module {
   val program_pointer = RegInit(0.U(8.W));
   io.program_pointer := program_pointer;
 
-  when(io.thread_requesting_opcode) {
-    printf(p"\t[Dispatcher]=====");
-    printf(p"\n\t\tMarked read requested!\n\n");
+  val requested_program_pointer = RegInit(0.U(8.W));
 
-    io.read_requested := true.B;
+  io.read_requested := true.B;
+
+  when(io.thread_requesting_opcode) {
+    io.read_program_pointer := io.thread_program_pointer;
+    requested_program_pointer := io.thread_program_pointer;
+  }.otherwise {
+    io.read_program_pointer := io.thread_program_pointer + 1.U;
+    requested_program_pointer := io.thread_program_pointer + 1.U;
   }
   
   when(io.read_ready) {
-    printf(p"\t[Dispatcher]=====");
-    printf(p"\n\t\tRead Complete ${io.read_opcode}");
-    printf(p"\n\t\tImmediate Lower ${io.read_immediate_l}");
-    printf(p"\n\t\tImmediate Upper ${io.read_immediate_u}\n\n");
-
     val read_opcode = Operation.safe(io.read_opcode(6, 3))._1;
     opcode := read_opcode;
     io.opcode := read_opcode;
@@ -105,9 +102,7 @@ class Dispatcher extends Module {
     opcode_loaded := true.B;
     io.opcode_loaded := true.B;
     
-    program_pointer := io.read_program_pointer;
-    io.program_pointer := io.read_program_pointer;
-    
-    io.read_requested := false.B;
+    program_pointer := requested_program_pointer;
+    io.program_pointer := requested_program_pointer;
   }
 }
